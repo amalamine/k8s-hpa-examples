@@ -1,0 +1,27 @@
+apiVersion: autoscaling/v2
+# FEATURE STATE: Kubernetes v1.23 [stable]
+# Run `kubectl api-versions` to check if this API version is supported in your cluster
+kind: HorizontalPodAutoscaler
+metadata:
+  name: hpa-cpu-memory
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    # Name of the deployment the HPA will scale
+    name: deployment-name
+  minReplicas: 5
+  maxReplicas: 20
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 50
+  - type: Resource
+    resource:
+      name: memory 
+      target:
+        type: Utilization 
+        averageValue: 10Mi
